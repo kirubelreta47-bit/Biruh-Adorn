@@ -3,13 +3,19 @@
 @layer base {
   :root {
     --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    /* Controlled Brand Identity Tokens */
+    --color-navy: #07111F;
+    --color-emerald: #12382C;
+    --color-gold: #D6B878;
+    --color-ivory: #F5F0E6;
   }
 
   body {
     font-family: var(--font-sans);
     background-color: #FAF8F5;
-    color: #161B26;
+    color: #07111F;
     overflow-x: hidden;
   }
 
@@ -18,12 +24,12 @@
   }
 }
 
-/* Custom smooth transitions and utility touches */
+/* Custom smooth transitions */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar for gallery and drawers */
+/* Custom luxury scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -39,7 +45,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A99F8D;
+  background: #D6B878;
 }
 
 /* Continuous marquee animation */
@@ -62,6 +68,37 @@ html {
   animation-play-state: paused;
 }
 
+/* Slow Cinematic Zoom for Hero */
+@keyframes cinematicZoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-cinematic-zoom {
+  animation: cinematicZoom 24s ease-in-out infinite;
+}
+
+/* Gentle Float / Scroll Bounce */
+@keyframes gentleBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+.animate-gentle-bounce {
+  animation: gentleBounce 2.2s ease-in-out infinite;
+}
+
 /* Keyframes for subtle entrance */
 @keyframes fadeIn {
   from {
@@ -76,4 +113,216 @@ html {
 
 .animate-fadeIn {
   animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
+   LUXURY GOLD SHINE EFFECTS (Metallic Luster, Shimmer Sweeps & Radiance)
+   ========================================================================== */
+
+/* 1. Metallic Gold Gradient & Shimmering Text */
+.bg-gold-shine {
+  background: linear-gradient(135deg, #B89658 0%, #E2CB99 28%, #FFF4DE 50%, #D6B878 72%, #A68446 100%);
+}
+
+.text-gold-shine {
+  background: linear-gradient(135deg, #B59355 0%, #E2CB99 25%, #FFF8E7 50%, #D6B878 75%, #A68446 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldTextShimmer 5s ease-in-out infinite alternate;
+}
+
+@keyframes goldTextShimmer {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 100% center;
+  }
+}
+
+/* 2. Periodic Diagonal Gold Shimmer Sweep across Buttons */
+@keyframes goldButtonSweep {
+  0% {
+    transform: translateX(-160%) skewX(-25deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  35% {
+    transform: translateX(260%) skewX(-25deg);
+    opacity: 0.85;
+  }
+  36%, 100% {
+    transform: translateX(260%) skewX(-25deg);
+    opacity: 0;
+  }
+}
+
+.gold-btn-shine {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #B89658 0%, #E2CB99 28%, #FFF4DE 50%, #D6B878 72%, #A68446 100%);
+  box-shadow: 0 4px 20px -2px rgba(214, 184, 120, 0.4), 0 2px 8px rgba(7, 17, 31, 0.25);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gold-btn-shine::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.0) 25%,
+    rgba(255, 255, 255, 0.7) 48%,
+    rgba(255, 248, 220, 0.95) 52%,
+    rgba(255, 255, 255, 0.0) 75%,
+    transparent 100%
+  );
+  transform: translateX(-160%) skewX(-25deg);
+  animation: goldButtonSweep 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.gold-btn-shine:hover {
+  background: linear-gradient(135deg, #C6A56B 0%, #EAD6A9 28%, #FFFDF7 50%, #E2C990 72%, #B59355 100%);
+  box-shadow: 0 0 32px rgba(214, 184, 120, 0.65), 0 6px 24px rgba(7, 17, 31, 0.25);
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* 3. Product Card Diagonal Gold Light Sweep on Hover */
+@keyframes cardSheenSweep {
+  0% {
+    transform: translateX(-140%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(240%) skewX(-20deg);
+  }
+}
+
+.gold-card-sheen {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 250, 235, 0.4) 48%,
+    rgba(214, 184, 120, 0.5) 52%,
+    rgba(255, 255, 255, 0) 70%,
+    transparent 100%
+  );
+  transform: translateX(-140%) skewX(-20deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.group:hover .gold-card-sheen {
+  opacity: 1;
+  animation: cardSheenSweep 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 4. Twinkling Gold Starlight Sparkle Glint */
+@keyframes goldGlintTwinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  40% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25) rotate(45deg);
+  }
+  60% {
+    opacity: 0.85;
+    transform: scale(0.95) rotate(90deg);
+  }
+  75% {
+    opacity: 0;
+    transform: scale(0.2) rotate(135deg);
+  }
+}
+
+.animate-gold-glint {
+  animation: goldGlintTwinkle 4.2s ease-in-out infinite;
+}
+
+.animate-gold-glint-delayed {
+  animation: goldGlintTwinkle 4.2s ease-in-out 2.1s infinite;
+}
+
+/* Alternating Luxury Gold Sparkles: 10 shine long, slow dimming, then 10 shine, taking turns */
+@keyframes sparkleTurnA {
+  0%, 35% {
+    opacity: 0.95;
+    transform: scale(1.15) rotate(45deg);
+    filter: drop-shadow(0 0 8px rgba(214, 184, 120, 0.95)) drop-shadow(0 0 16px rgba(255, 245, 215, 0.7));
+  }
+  50%, 85% {
+    opacity: 0.14;
+    transform: scale(0.5) rotate(0deg);
+    filter: drop-shadow(0 0 2px rgba(214, 184, 120, 0.2));
+  }
+  100% {
+    opacity: 0.95;
+    transform: scale(1.15) rotate(45deg);
+    filter: drop-shadow(0 0 8px rgba(214, 184, 120, 0.95)) drop-shadow(0 0 16px rgba(255, 245, 215, 0.7));
+  }
+}
+
+@keyframes sparkleTurnB {
+  0%, 35% {
+    opacity: 0.14;
+    transform: scale(0.5) rotate(0deg);
+    filter: drop-shadow(0 0 2px rgba(214, 184, 120, 0.2));
+  }
+  50%, 85% {
+    opacity: 0.95;
+    transform: scale(1.15) rotate(45deg);
+    filter: drop-shadow(0 0 8px rgba(214, 184, 120, 0.95)) drop-shadow(0 0 16px rgba(255, 245, 215, 0.7));
+  }
+  100% {
+    opacity: 0.14;
+    transform: scale(0.5) rotate(0deg);
+    filter: drop-shadow(0 0 2px rgba(214, 184, 120, 0.2));
+  }
+}
+
+.animate-sparkle-turn-a {
+  animation: sparkleTurnA 10s ease-in-out infinite;
+}
+
+.animate-sparkle-turn-b {
+  animation: sparkleTurnB 10s ease-in-out infinite;
+}
+
+/* 5. Golden Border & Glow Accents */
+.hover-gold-shine:hover {
+  border-color: #D6B878 !important;
+  box-shadow: 0 16px 36px -10px rgba(214, 184, 120, 0.3), 0 0 24px rgba(214, 184, 120, 0.2) !important;
+}
+
+/* Respect user accessibility settings */
+@media (prefers-reduced-motion: reduce) {
+  .gold-btn-shine::after,
+  .gold-card-sheen,
+  .text-gold-shine,
+  .animate-gold-glint,
+  .animate-gold-glint-delayed,
+  .animate-sparkle-turn-a,
+  .animate-sparkle-turn-b {
+    animation: none !important;
+  }
 }

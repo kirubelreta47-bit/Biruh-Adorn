@@ -3,7 +3,6 @@ import { Search, ArrowUpDown } from 'lucide-react';
 import { PRODUCTS } from '../data/products';
 import { ProductCard } from './ProductCard';
 import { Category, Product } from '../types';
-import { motion } from 'motion/react';
 
 interface ShopViewProps {
   initialCategory?: Category;
@@ -59,10 +58,10 @@ export const ShopView: React.FC<ShopViewProps> = ({
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <div className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
-          <span className="text-[10px] sm:text-[11px] font-sans font-medium uppercase tracking-[0.3em] text-[#8E98A8] block mb-2">
+          <span className="text-[10px] sm:text-[11px] font-sans font-medium uppercase tracking-[0.3em] block mb-2 text-gold-shine">
             Handcrafted Archive
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#0B121E] tracking-tight mb-3">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#07111F] tracking-tight mb-3">
             SHOP THE COLLECTION
           </h1>
           <p className="font-sans text-xs sm:text-sm text-[#5C6474] font-light leading-relaxed">
@@ -87,8 +86,8 @@ export const ShopView: React.FC<ShopViewProps> = ({
                     }}
                     className={`px-3 py-1.5 text-xs font-sans uppercase tracking-[0.18em] transition-all whitespace-nowrap cursor-pointer rounded-xs ${
                       isActive
-                        ? 'bg-[#0B121E] text-[#FAF8F5] font-medium shadow-xs'
-                        : 'text-[#5C6474] hover:text-[#0B121E] hover:bg-[#EFECE4]'
+                        ? 'bg-[#07111F] text-[#FAF8F5] font-medium shadow-xs'
+                        : 'text-[#5C6474] hover:text-[#07111F] hover:bg-[#EFECE4]'
                     }`}
                   >
                     {tab.label}
@@ -109,7 +108,7 @@ export const ShopView: React.FC<ShopViewProps> = ({
                     setVisibleCount(12);
                   }}
                   placeholder="Search pieces..."
-                  className="w-full bg-[#FAF8F5] border border-[#E0DBD0] pl-8 pr-3 py-1.5 text-xs text-[#0B121E] placeholder-[#8E98A8] focus:outline-hidden focus:border-[#0B121E] transition-colors rounded-xs"
+                  className="w-full bg-[#FAF8F5] border border-[#E0DBD0] pl-8 pr-3 py-1.5 text-xs text-[#07111F] placeholder-[#8E98A8] focus:outline-hidden focus:border-[#07111F] transition-colors rounded-xs"
                 />
               </div>
 
@@ -117,7 +116,7 @@ export const ShopView: React.FC<ShopViewProps> = ({
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-[#FAF8F5] border border-[#E0DBD0] px-3 py-1.5 text-xs font-sans uppercase tracking-wider text-[#0B121E] focus:outline-hidden focus:border-[#0B121E] cursor-pointer appearance-none pr-7 rounded-xs"
+                  className="bg-[#FAF8F5] border border-[#E0DBD0] px-3 py-1.5 text-xs font-sans uppercase tracking-wider text-[#07111F] focus:outline-hidden focus:border-[#07111F] cursor-pointer appearance-none pr-7 rounded-xs"
                 >
                   <option value="featured">Featured</option>
                   <option value="price-asc">Price: Low to High</option>
@@ -136,7 +135,7 @@ export const ShopView: React.FC<ShopViewProps> = ({
           {selectedCategory !== 'all' && (
             <button
               onClick={() => setSelectedCategory('all')}
-              className="text-[#0B121E] underline hover:text-[#C5A880] cursor-pointer"
+              className="text-[#07111F] underline hover:text-[#D6B878] cursor-pointer"
             >
               Reset filter
             </button>
@@ -157,7 +156,7 @@ export const ShopView: React.FC<ShopViewProps> = ({
           </div>
         ) : (
           <div className="text-center py-20 bg-[#F5F2EB] p-8 border border-dashed border-[#D5CEBE]">
-            <p className="font-serif text-2xl text-[#0B121E] mb-2">No pieces found</p>
+            <p className="font-serif text-2xl text-[#07111F] mb-2">No pieces found</p>
             <p className="text-xs text-[#5C6474] mb-6">
               Try adjusting your category selection or search query.
             </p>
@@ -166,7 +165,7 @@ export const ShopView: React.FC<ShopViewProps> = ({
                 setSelectedCategory('all');
                 setSearchQuery('');
               }}
-              className="px-6 py-2.5 bg-[#0B121E] text-[#FAF8F5] text-xs uppercase tracking-widest hover:bg-[#C5A880] hover:text-[#0B121E] transition-colors"
+              className="px-6 py-2.5 bg-[#07111F] text-[#FAF8F5] text-xs uppercase tracking-widest hover:bg-[#D6B878] hover:text-[#07111F] transition-colors"
             >
               View All Pieces
             </button>
@@ -179,7 +178,7 @@ export const ShopView: React.FC<ShopViewProps> = ({
             <button
               type="button"
               onClick={() => setVisibleCount((prev) => prev + 8)}
-              className="inline-flex items-center justify-center px-8 py-3 border border-[#0B121E] text-xs font-semibold uppercase tracking-[0.2em] text-[#0B121E] hover:bg-[#0B121E] hover:text-[#FAF8F5] transition-all cursor-pointer"
+              className="inline-flex items-center justify-center px-8 py-3 border border-[#07111F] text-xs font-semibold uppercase tracking-[0.2em] text-[#07111F] hover:bg-[#07111F] hover:text-[#FAF8F5] transition-all cursor-pointer"
             >
               Load More Pieces
             </button>

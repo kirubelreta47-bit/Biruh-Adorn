@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, MessageCircle, Sparkles, CheckCircle2, ShieldCheck, HeartHandshake } from 'lucide-react';
+import { ArrowRight, MessageCircle, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { BRAND_CONFIG } from '../config/brand';
 import { GoldSwallowDecor } from './BrandLogo';
 
@@ -43,26 +43,25 @@ const PROCESS_STEPS = [
 
 export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
   onExploreShop,
-  onNavigateContact,
 }) => {
   const whatsappConsultationUrl = `https://wa.me/${BRAND_CONFIG.whatsappNumber}?text=${encodeURIComponent(
     'Hello Biruh Adorn! I would like to start a custom jewelry consultation. (YOUR IDEA. YOUR FORM. YOUR JEWELRY.)'
   )}`;
 
   return (
-    <div className="w-full bg-[#FAF8F5] text-[#0B121E]">
+    <div className="w-full bg-[#FAF8F5] text-[#07111F]">
       {/* 1. Hero Presentation */}
       <section className="relative w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-b border-[#EBE7DF] overflow-hidden bg-[#FAF8F5]">
         {/* Ambient subtle glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-80 bg-[#F2EDE2]/70 rounded-full blur-3xl pointer-events-none -z-0" />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-sans font-medium uppercase tracking-[0.3em] text-[#C5A880] mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-[#C5A880]" />
+          <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-sans font-medium uppercase tracking-[0.3em] text-[#D6B878] mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-[#D6B878]" />
             <span>Bespoke Service</span>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#0B121E] tracking-tight leading-[1.1] mb-6">
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#07111F] tracking-tight leading-[1.1] mb-6">
             YOUR IDEA.
             <br />
             YOUR FORM.
@@ -79,7 +78,7 @@ export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
               href={whatsappConsultationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-4 bg-[#0B121E] text-[#FAF8F5] text-xs font-semibold uppercase tracking-[0.2em] rounded-lg hover:bg-[#C5A880] hover:text-[#0B121E] transition-all shadow-md flex items-center justify-center gap-2.5 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-4 bg-[#07111F] text-[#FAF8F5] text-xs font-semibold uppercase tracking-[0.2em] rounded-lg hover:bg-[#D6B878] hover:text-[#07111F] transition-all shadow-md flex items-center justify-center gap-2.5 cursor-pointer"
             >
               <MessageCircle className="w-4 h-4 fill-current" />
               <span>Start Your Consultation</span>
@@ -89,7 +88,7 @@ export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
               <button
                 type="button"
                 onClick={onExploreShop}
-                className="w-full sm:w-auto px-6 py-4 bg-[#FAF8F5] hover:bg-[#FFFFFF] text-[#0B121E] text-xs font-medium uppercase tracking-[0.18em] rounded-lg border border-[#E0DBD0] hover:border-[#0B121E] transition-all cursor-pointer"
+                className="w-full sm:w-auto px-6 py-4 bg-[#FAF8F5] hover:bg-[#FFFFFF] text-[#07111F] text-xs font-medium uppercase tracking-[0.18em] rounded-lg border border-[#E0DBD0] hover:border-[#07111F] transition-all cursor-pointer"
               >
                 <span>View Existing Collection</span>
               </button>
@@ -106,24 +105,24 @@ export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
             <GoldSwallowDecor className="w-full h-full" flipped={true} />
           </div>
 
-          <div className="md:col-span-5 relative aspect-4/5 rounded-xl overflow-hidden bg-[#162032] shadow-sm">
+          <div className="md:col-span-5 relative aspect-4/5 overflow-hidden rounded-xl bg-[#07111F] shadow-xs">
             <img
               src="/biruh images/IMG_2002.JPG"
-              alt="Handcrafted custom wire ring coiling"
+              alt="Handcrafted custom wire ring coiling at Biruh Adorn"
               className="w-full h-full object-cover object-center"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B121E]/40 via-transparent to-transparent" />
-            <span className="absolute bottom-3 left-3 text-[9px] font-sans uppercase tracking-widest text-[#FAF8F5] bg-[#0B121E]/80 px-2.5 py-1 rounded-xs backdrop-blur-xs">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#07111F]/50 via-transparent to-transparent" />
+            <span className="absolute bottom-3 left-3 text-[9px] font-sans uppercase tracking-widest text-[#FAF8F5] bg-[#07111F]/80 px-2.5 py-1 rounded-xs backdrop-blur-xs">
               Hand-Coiled Wirework
             </span>
           </div>
 
-          <div className="md:col-span-7 flex flex-col justify-center">
-            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.25em] text-[#C5A880] block mb-2">
+          <div className="md:col-span-7 flex flex-col justify-center text-left">
+            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.25em] text-[#D6B878] block mb-2">
               Made For You
             </span>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[#0B121E] font-normal tracking-tight mb-4">
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[#07111F] font-normal tracking-tight mb-3">
               A Direct Dialogue With The Maker
             </h2>
             <p className="font-sans text-xs sm:text-sm text-[#5C6474] font-light leading-relaxed mb-4">
@@ -135,11 +134,11 @@ export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
 
             <div className="pt-2 flex items-center gap-6 text-xs text-[#8E98A8] font-light">
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#C5A880]" />
+                <CheckCircle2 className="w-4 h-4 text-[#12382C]" />
                 100% Handcrafted
               </span>
               <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-[#C5A880]" />
+                <ShieldCheck className="w-4 h-4 text-[#D6B878]" />
                 Authenticity Guaranteed
               </span>
             </div>
@@ -151,10 +150,10 @@ export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
       <section className="w-full bg-[#FAF8F5] py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#EBE7DF]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
-            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.25em] text-[#C5A880] block mb-2">
+            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.25em] text-[#D6B878] block mb-2">
               Step by Step
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-[#0B121E] font-normal tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl text-[#07111F] font-normal tracking-tight">
               The Process
             </h2>
             <p className="font-sans text-xs sm:text-sm text-[#6C7688] font-light mt-1.5">
@@ -167,22 +166,22 @@ export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
             {PROCESS_STEPS.map((step) => (
               <div
                 key={step.number}
-                className="bg-[#FFFFFF] border border-[#E2DDD3] hover:border-[#C5A880] p-6 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+                className="bg-[#FFFFFF] border border-[#D6B878]/30 hover:border-[#D6B878] p-6 rounded-xl shadow-xs hover:shadow-[0_12px_28px_-8px_rgba(214,184,120,0.25)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
                   {/* Step Number Tag */}
                   <div className="flex items-center justify-between mb-4">
-                    <span className="font-serif text-2xl sm:text-3xl text-[#C5A880] font-light tracking-tight group-hover:scale-105 transition-transform">
+                    <span className="font-serif text-2xl sm:text-3xl text-[#D6B878] font-light tracking-tight group-hover:scale-105 transition-transform">
                       {step.number}
                     </span>
-                    <span className="w-2 h-2 rounded-full bg-[#E0DBD0] group-hover:bg-[#C5A880] transition-colors" />
+                    <span className="w-2 h-2 rounded-full bg-[#E0DBD0] group-hover:bg-[#D6B878] transition-colors" />
                   </div>
 
-                  <h3 className="font-serif text-lg sm:text-xl text-[#0B121E] font-medium tracking-tight mb-2">
+                  <h3 className="font-serif text-lg sm:text-xl text-[#07111F] font-medium tracking-tight mb-2">
                     {step.title}
                   </h3>
 
-                  <p className="font-sans text-xs text-[#0B121E] font-medium leading-relaxed mb-2">
+                  <p className="font-sans text-xs text-[#07111F] font-medium leading-relaxed mb-2">
                     {step.description}
                   </p>
 
@@ -196,7 +195,7 @@ export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
 
           {/* Bottom Prepayment & Terms Note */}
           <div className="mt-10 p-5 sm:p-6 bg-[#FFFFFF] border border-[#E2DDD3] rounded-xl text-center max-w-2xl mx-auto shadow-2xs">
-            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.2em] text-[#C5A880] block mb-1">
+            <span className="text-[10px] font-sans font-medium uppercase tracking-[0.2em] text-[#D6B878] block mb-1">
               Transparent Commission Terms
             </span>
             <p className="font-sans text-xs text-[#5C6474] font-light leading-relaxed">
@@ -210,7 +209,7 @@ export const CustomJewelryPage: React.FC<CustomJewelryPageProps> = ({
               href={whatsappConsultationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[#0B121E] text-[#FAF8F5] text-xs font-semibold uppercase tracking-[0.2em] rounded-lg hover:bg-[#C5A880] hover:text-[#0B121E] transition-all shadow-md cursor-pointer"
+              className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[#07111F] text-[#FAF8F5] text-xs font-semibold uppercase tracking-[0.2em] rounded-lg hover:bg-gold-shine hover:text-[#07111F] hover:shadow-[0_0_20px_rgba(214,184,120,0.5)] transition-all shadow-md cursor-pointer"
             >
               <MessageCircle className="w-4 h-4 fill-current" />
               <span>Start Your Consultation</span>

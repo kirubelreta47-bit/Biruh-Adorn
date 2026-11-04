@@ -102,11 +102,12 @@ Message: ${message || 'Inquiring about your handcrafted jewelry.'}`;
             {/* Left Side: "Get in touch with us" + detail + clean icons */}
             <div className="md:col-span-5 flex flex-col justify-between h-full">
               <div>
-                <span className="text-[10px] font-sans font-medium uppercase tracking-[0.25em] text-[#C5A880] block mb-2">
-                  Studio Direct
-                </span>
-                
-                <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[#0B121E] font-normal tracking-tight mb-2.5">
+                <div className="inline-flex items-center gap-1.5 text-[10px] font-sans font-medium uppercase tracking-[0.25em] bg-[#07111F] text-[#F5F0E6] px-3 py-1 rounded-full border border-[#D6B878]/35 shadow-xs mb-3">
+                  <span className="text-[#D6B878]">✦</span>
+                  <span>Studio Direct</span>
+                </div>
+
+                <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[#07111F] font-normal tracking-tight mb-2.5">
                   Get in touch with us
                 </h2>
 
@@ -127,35 +128,35 @@ Message: ${message || 'Inquiring about your handcrafted jewelry.'}`;
                       href={item.href}
                       target={item.isExternal ? '_blank' : undefined}
                       rel={item.isExternal ? 'noopener noreferrer' : undefined}
-                      className="flex items-center gap-3 p-2.5 rounded-lg border border-[#ECE7DE] hover:border-[#0B121E] bg-[#FAF8F5]/80 hover:bg-[#0B121E] text-[#0B121E] hover:text-[#FAF8F5] transition-all duration-300 group cursor-pointer"
+                      className="flex items-center gap-3 p-2.5 rounded-lg border border-[#ECE7DE] hover:border-[#203B5C] bg-[#FAF8F5]/80 hover:bg-[#07111F] text-[#07111F] hover:text-[#F5F0E6] transition-all duration-300 group cursor-pointer hover:shadow-md"
                     >
-                      {/* Icon */}
-                      <div className="w-8 h-8 rounded-full bg-[#FFFFFF] group-hover:bg-[#1A253A] border border-[#E0DBD0] group-hover:border-[#C5A880]/50 flex items-center justify-center text-[#0B121E] group-hover:text-[#C5A880] shrink-0 transition-colors">
-                        <IconComponent className="w-4 h-4" strokeWidth={1.5} />
+                      {/* Icon with subtle emerald touch */}
+                      <div className="w-8 h-8 rounded-full bg-white border border-[#E0DBD0] flex items-center justify-center text-[#12382C] group-hover:text-[#D6B878] group-hover:bg-[#07111F]/80 shrink-0 transition-colors">
+                        <IconComponent className="w-4 h-4" strokeWidth={1.4} />
                       </div>
 
                       {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <span className="text-[9px] uppercase tracking-wider text-[#8E98A8] group-hover:text-[#C5A880] block leading-none mb-1">
+                        <span className="text-[9px] uppercase tracking-[0.16em] text-[#8E98A8] group-hover:text-[#D6B878] block leading-none mb-1 transition-colors">
                           {item.label}
                         </span>
-                        <span className="text-xs font-medium tracking-tight truncate block">
+                        <span className="font-sans text-xs truncate block font-medium">
                           {item.detail}
                         </span>
                       </div>
 
-                      {/* Copy Button if available */}
+                      {/* Copy Action */}
                       {item.copyText && (
                         <button
                           type="button"
                           onClick={(e) => handleCopy(item.copyText!, item.id, e)}
-                          className="p-1 text-[#8E98A8] group-hover:text-[#FAF8F5]/80 hover:text-[#C5A880] transition-colors cursor-pointer shrink-0"
+                          className="p-1.5 text-[#8E98A8] hover:text-[#07111F] group-hover:text-[#FAF8F5] transition-colors shrink-0"
                           title={`Copy ${item.label}`}
                           aria-label={`Copy ${item.label}`}
                         >
                           {isCopied ? (
-                            <span className="text-[9px] text-[#25D366] font-sans font-medium flex items-center gap-0.5">
-                              <Check className="w-3 h-3" />
+                            <span className="text-[9px] text-[#12382C] font-sans font-medium flex items-center gap-0.5">
+                              <Check className="w-3 h-3 text-[#12382C]" />
                               <span>Copied</span>
                             </span>
                           ) : (
@@ -166,7 +167,7 @@ Message: ${message || 'Inquiring about your handcrafted jewelry.'}`;
 
                       {/* External Arrow */}
                       {item.isExternal && !item.copyText && (
-                        <ArrowUpRight className="w-3.5 h-3.5 text-[#8E98A8] group-hover:text-[#C5A880] transition-colors shrink-0" />
+                        <ArrowUpRight className="w-3.5 h-3.5 text-[#8E98A8] group-hover:text-[#D6B878] transition-colors shrink-0" />
                       )}
                     </a>
                   );
@@ -177,10 +178,10 @@ Message: ${message || 'Inquiring about your handcrafted jewelry.'}`;
             {/* Right Side: "Send a message" Form */}
             <div className="md:col-span-7 bg-[#FAF8F5] p-5 sm:p-7 lg:p-8 rounded-xl border border-[#E2DDD3]">
               <div className="mb-5">
-                <span className="text-[10px] font-sans font-medium uppercase tracking-[0.2em] text-[#C5A880] block mb-1">
+                <span className="text-[10px] font-sans font-medium uppercase tracking-[0.2em] text-[#D6B878] block mb-1">
                   Inquiry Form
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl text-[#0B121E] font-normal tracking-tight">
+                <h3 className="font-serif text-xl sm:text-2xl text-[#07111F] font-normal tracking-tight">
                   Send a message
                 </h3>
                 <p className="font-sans text-xs text-[#6C7688] font-light mt-0.5">
@@ -199,7 +200,7 @@ Message: ${message || 'Inquiring about your handcrafted jewelry.'}`;
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Selamawit T."
-                    className="w-full px-3.5 py-2.5 bg-white border border-[#E0DBD0] rounded-lg text-xs text-[#0B121E] placeholder-[#9E9789] focus:outline-hidden focus:border-[#0B121E] transition-all"
+                    className="w-full px-3.5 py-2.5 bg-white border border-[#E0DBD0] rounded-lg text-xs text-[#07111F] placeholder-[#9E9789] focus:outline-hidden focus:border-[#07111F] transition-all"
                   />
                 </div>
 
@@ -213,7 +214,7 @@ Message: ${message || 'Inquiring about your handcrafted jewelry.'}`;
                     value={contactInfo}
                     onChange={(e) => setContactInfo(e.target.value)}
                     placeholder="e.g. +251 91 234 5678 or name@email.com"
-                    className="w-full px-3.5 py-2.5 bg-white border border-[#E0DBD0] rounded-lg text-xs text-[#0B121E] placeholder-[#9E9789] focus:outline-hidden focus:border-[#0B121E] transition-all"
+                    className="w-full px-3.5 py-2.5 bg-white border border-[#E0DBD0] rounded-lg text-xs text-[#07111F] placeholder-[#9E9789] focus:outline-hidden focus:border-[#07111F] transition-all"
                   />
                 </div>
 
@@ -226,21 +227,21 @@ Message: ${message || 'Inquiring about your handcrafted jewelry.'}`;
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Describe your desired piece, ring size, or custom inquiry..."
-                    className="w-full px-3.5 py-2.5 bg-white border border-[#E0DBD0] rounded-lg text-xs text-[#0B121E] placeholder-[#9E9789] focus:outline-hidden focus:border-[#0B121E] transition-all resize-none"
+                    className="w-full px-3.5 py-2.5 bg-white border border-[#E0DBD0] rounded-lg text-xs text-[#07111F] placeholder-[#9E9789] focus:outline-hidden focus:border-[#07111F] transition-all resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 bg-[#0B121E] text-[#FAF8F5] text-xs font-semibold uppercase tracking-[0.18em] rounded-lg hover:bg-[#C5A880] hover:text-[#0B121E] transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                  className="w-full py-3 bg-[#07111F] text-[#FAF8F5] text-xs font-semibold uppercase tracking-[0.18em] rounded-lg hover:bg-gold-shine hover:text-[#07111F] hover:shadow-[0_0_20px_rgba(214,184,120,0.5)] transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Send Message</span>
                 </button>
 
                 {submitted && (
-                  <div className="p-2.5 bg-[#EAF7ED] border border-[#BCE6C4] rounded-lg text-xs text-[#1E7E34] flex items-center gap-2 animate-fadeIn">
-                    <Check className="w-3.5 h-3.5 shrink-0" />
+                  <div className="p-2.5 bg-[#EAF7ED] border border-[#BCE6C4] rounded-lg text-xs text-[#12382C] flex items-center gap-2 animate-fadeIn font-medium">
+                    <Check className="w-3.5 h-3.5 shrink-0 text-[#12382C]" />
                     <span>Inquiry prepared and dispatched. We will connect with you shortly!</span>
                   </div>
                 )}

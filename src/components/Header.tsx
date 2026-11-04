@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
-import { Menu, X, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, Search, ChevronRight } from 'lucide-react';
 import { BrandLogo, GoldSwallowDecor } from './BrandLogo';
 import { useCart } from '../context/CartContext';
-import { BRAND_CONFIG } from '../config/brand';
 import { ActivePage, Category } from '../types';
 
 interface HeaderProps {
   activePage: ActivePage;
   setActivePage: (page: ActivePage) => void;
   onSelectCategory?: (category: Category) => void;
+  onOpenSearch?: () => void;
   theme?: 'dark' | 'light';
 }
 
-// Elegant Minimalist Luxury Jewelry Shopping Tote Icon
-const LuxuryCartIcon: React.FC<{ className?: string; isLight?: boolean }> = ({
+// Minimalist Luxury Jewelry Shopping Tote Icon matching reference
+const LuxuryCartIcon: React.FC<{ className?: string }> = ({
   className = 'w-5 h-5',
-  isLight = false,
 }) => {
-  const strokeColor = isLight ? '#FAF8F5' : '#0B121E';
-
   return (
     <svg
       className={className}
@@ -30,19 +27,18 @@ const LuxuryCartIcon: React.FC<{ className?: string; isLight?: boolean }> = ({
       {/* Tote Bag Body with elegant tapered corners */}
       <path
         d="M5 8.5L3.8 19C3.6 20.3 4.6 21.5 6 21.5H18C19.4 21.5 20.4 20.3 20.2 19L19 8.5H5Z"
-        stroke={strokeColor}
-        strokeWidth="1.6"
+        stroke="#F5F0E6"
+        strokeWidth="1.5"
         strokeLinejoin="round"
       />
-      {/* Arching Dual Top Handles */}
+      {/* Arching Top Handle */}
       <path
         d="M8.5 8.5V6C8.5 4.07 10.07 2.5 12 2.5C13.93 2.5 15.5 4.07 15.5 6V8.5"
-        stroke={strokeColor}
-        strokeWidth="1.6"
+        stroke="#F5F0E6"
+        strokeWidth="1.5"
         strokeLinecap="round"
       />
-      {/* Center subtle dot accent */}
-      <circle cx="12" cy="14" r="1" fill={strokeColor} opacity="0.6" />
+      <circle cx="12" cy="14" r="0.9" fill="#D6B878" />
     </svg>
   );
 };
@@ -50,21 +46,20 @@ const LuxuryCartIcon: React.FC<{ className?: string; isLight?: boolean }> = ({
 export const Header: React.FC<HeaderProps> = ({
   activePage,
   setActivePage,
-  theme = 'dark',
+  onOpenSearch,
+  theme,
 }) => {
   const { totalItems, toggleCart } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const isDark = theme === 'dark';
 
   const handleNavClick = (page: ActivePage) => {
     setActivePage(page);
@@ -72,159 +67,117 @@ export const Header: React.FC<HeaderProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navItems: { label: string; page: ActivePage }[] = [
+    { label: 'Home', page: 'home' },
+    { label: 'Shop', page: 'shop' },
+    { label: 'Bespoke', page: 'custom' },
+    { label: 'About Us', page: 'about' },
+    { label: 'Contact', page: 'contact' },
+  ];
+
+  const showSolidNav = isScrolled || activePage !== 'home' || theme === 'dark';
+
   return (
     <>
       <header
-        className={`sticky top-0 w-full z-40 ${
-          isDark
-            ? 'bg-[#0B121E]/95 backdrop-blur-md border-b border-[#1A253A]'
-            : 'bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#EBE7DF]'
-        } ${isDark ? 'text-[#FAF8F5]' : 'text-[#0B121E]'} ${
-          isScrolled ? 'shadow-md shadow-black/20' : ''
-        } transition-shadow duration-300`}
+        className={`fixed top-0 left-0 right-0 w-full z-40 transition-all duration-500 ${
+          showSolidNav
+            ? 'bg-[#07111F]/95 backdrop-blur-md border-b border-[#1A253A] py-3.5 shadow-lg shadow-black/30'
+            : 'bg-transparent py-5 sm:py-6 border-b border-white/5'
+        }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20 sm:h-22 relative">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="flex items-center justify-between">
             {/* Mobile: Hamburger Button */}
-            <div className="flex items-center md:hidden z-10">
+            <div className="flex items-center lg:hidden">
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="p-2 text-current hover:text-[#C5A880] transition-colors focus:outline-hidden cursor-pointer"
+                className="p-1.5 text-[#F5F0E6] hover:text-[#D6B878] transition-colors focus:outline-hidden cursor-pointer"
                 aria-label="Open menu"
               >
-                <Menu className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.5} />
+                <Menu className="w-5 h-5" strokeWidth={1.4} />
               </button>
             </div>
 
-            {/* Desktop Left: Brand Logo */}
-            <div className="hidden md:flex items-center z-10">
+            {/* Left: Brand Logo & Name */}
+            <div className="flex items-center">
               <button
                 type="button"
                 onClick={() => handleNavClick('home')}
                 className="group focus:outline-hidden cursor-pointer flex items-center text-left"
               >
                 <BrandLogo
-                  variant={isDark ? 'light' : 'dark'}
+                  variant="light"
                   size="sm"
                   showTagline={false}
+                  layout="horizontal"
                 />
               </button>
             </div>
 
-            {/* Desktop Center: Navigation Links (HOME, SHOP, THE MAKER, ABOUT US, CONTACT US) */}
-            <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <button
-                type="button"
-                onClick={() => handleNavClick('home')}
-                className={`text-xs font-sans tracking-[0.18em] uppercase transition-colors relative py-1.5 cursor-pointer ${
-                  activePage === 'home'
-                    ? isDark
-                      ? 'text-[#FAF8F5] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#C5A880]'
-                      : 'text-[#0B121E] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#0B121E]'
-                    : isDark
-                    ? 'text-[#A0AAB8] hover:text-[#FAF8F5]'
-                    : 'text-[#5C6474] hover:text-[#0B121E]'
-                }`}
-              >
-                Home
-              </button>
+            {/* Center: Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center space-x-8 xl:space-x-10">
+              {navItems.map((item) => {
+                const isActive =
+                  activePage === item.page ||
+                  (item.page === 'about' && activePage === 'maker');
 
-              <button
-                type="button"
-                onClick={() => handleNavClick('shop')}
-                className={`text-xs font-sans tracking-[0.18em] uppercase transition-colors relative py-1.5 cursor-pointer ${
-                  activePage === 'shop'
-                    ? isDark
-                      ? 'text-[#FAF8F5] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#C5A880]'
-                      : 'text-[#0B121E] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#0B121E]'
-                    : isDark
-                    ? 'text-[#A0AAB8] hover:text-[#FAF8F5]'
-                    : 'text-[#5C6474] hover:text-[#0B121E]'
-                }`}
-              >
-                Shop
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleNavClick('custom')}
-                className={`text-xs font-sans tracking-[0.18em] uppercase transition-colors relative py-1.5 cursor-pointer ${
-                  activePage === 'custom'
-                    ? isDark
-                      ? 'text-[#FAF8F5] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#C5A880]'
-                      : 'text-[#0B121E] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#0B121E]'
-                    : isDark
-                    ? 'text-[#A0AAB8] hover:text-[#FAF8F5]'
-                    : 'text-[#5C6474] hover:text-[#0B121E]'
-                }`}
-              >
-                Bespoke
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleNavClick('about')}
-                className={`text-xs font-sans tracking-[0.18em] uppercase transition-colors relative py-1.5 cursor-pointer ${
-                  activePage === 'about' || activePage === 'maker'
-                    ? isDark
-                      ? 'text-[#FAF8F5] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#C5A880]'
-                      : 'text-[#0B121E] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#0B121E]'
-                    : isDark
-                    ? 'text-[#A0AAB8] hover:text-[#FAF8F5]'
-                    : 'text-[#5C6474] hover:text-[#0B121E]'
-                }`}
-              >
-                About Us
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleNavClick('contact')}
-                className={`text-xs font-sans tracking-[0.18em] uppercase transition-colors relative py-1.5 cursor-pointer ${
-                  activePage === 'contact'
-                    ? isDark
-                      ? 'text-[#FAF8F5] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#C5A880]'
-                      : 'text-[#0B121E] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#0B121E]'
-                    : isDark
-                    ? 'text-[#A0AAB8] hover:text-[#FAF8F5]'
-                    : 'text-[#5C6474] hover:text-[#0B121E]'
-                }`}
-              >
-                Contact Us
-              </button>
+                return (
+                  <button
+                    key={item.page}
+                    type="button"
+                    onClick={() => handleNavClick(item.page)}
+                    className={`group relative py-1 text-[13px] font-sans tracking-[0.08em] transition-colors cursor-pointer ${
+                      isActive
+                        ? 'text-[#F5F0E6] font-medium'
+                        : 'text-[#F5F0E6]/75 hover:text-[#F5F0E6]'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {/* Animated Gold Underline with Shimmer */}
+                    <span
+                      className={`absolute -bottom-1 left-0 h-[1.5px] bg-linear-to-r from-[#D6B878] via-[#FFF5DB] to-[#D6B878] transition-all duration-300 ${
+                        isActive
+                          ? 'w-full opacity-100 shadow-[0_0_8px_rgba(214,184,120,0.5)]'
+                          : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'
+                      }`}
+                    />
+                  </button>
+                );
+              })}
             </nav>
 
-            {/* Mobile Center: Logo with Crisp Ring Emblem */}
-            <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            {/* Right: Search Icon + Bag Icon */}
+            <div className="flex items-center space-x-4 sm:space-x-6">
+              {/* Search Icon */}
               <button
                 type="button"
-                onClick={() => handleNavClick('home')}
-                className="group focus:outline-hidden cursor-pointer flex flex-col items-center"
+                onClick={() => {
+                  if (onOpenSearch) {
+                    onOpenSearch();
+                  } else {
+                    handleNavClick('shop');
+                  }
+                }}
+                className="p-1.5 text-[#F5F0E6]/85 hover:text-[#D6B878] transition-colors focus:outline-hidden cursor-pointer"
+                aria-label="Search collection"
+                title="Search collection"
               >
-                <BrandLogo
-                  variant={isDark ? 'light' : 'dark'}
-                  size="md"
-                  showTagline={true}
-                />
+                <Search className="w-4 h-4 sm:w-[18px] sm:h-[18px]" strokeWidth={1.5} />
               </button>
-            </div>
 
-            {/* Right: Cart Button Only */}
-            <div className="flex items-center z-10">
+              {/* Shopping Bag Icon with Champagne Counter */}
               <button
                 type="button"
                 onClick={toggleCart}
-                className="relative p-2 text-current hover:text-[#C5A880] transition-colors focus:outline-hidden cursor-pointer flex items-center justify-center"
+                className="relative p-1.5 text-[#F5F0E6] hover:text-[#D6B878] transition-colors focus:outline-hidden cursor-pointer flex items-center justify-center"
                 aria-label={`Shopping Bag (${totalItems} items)`}
                 title="View Bag"
               >
-                <LuxuryCartIcon
-                  className="w-5 h-5 sm:w-6 sm:h-6"
-                  isLight={isDark}
-                />
+                <LuxuryCartIcon className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center min-w-4 h-4 px-1 text-[9px] font-bold font-sans bg-[#C5A880] text-[#0B121E] rounded-full">
+                  <span className="absolute -top-0.5 -right-1 flex items-center justify-center min-w-4 h-4 px-1 text-[9px] font-bold font-sans bg-gold-shine text-[#07111F] rounded-full shadow-[0_0_8px_rgba(214,184,120,0.5)]">
                     {totalItems}
                   </span>
                 )}
@@ -236,93 +189,49 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Full-Screen Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0B121E] text-[#FAF8F5] flex flex-col justify-between p-6 sm:p-10 animate-fadeIn overflow-hidden">
+        <div className="fixed inset-0 z-50 bg-[#07111F] text-[#F5F0E6] flex flex-col justify-between p-6 sm:p-10 animate-fadeIn overflow-hidden">
           {/* Top Bar: Close Button */}
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-between border-b border-[#1A253A] pb-4">
+            <BrandLogo variant="light" size="sm" showTagline={false} />
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 text-[#FAF8F5] hover:text-[#C5A880] transition-colors focus:outline-hidden cursor-pointer"
+              className="p-2 text-[#F5F0E6] hover:text-[#D6B878] transition-colors focus:outline-hidden cursor-pointer"
               aria-label="Close navigation menu"
             >
-              <X className="w-6 h-6" strokeWidth={1.5} />
+              <X className="w-6 h-6" strokeWidth={1.4} />
             </button>
           </div>
 
-          {/* Centered Logo with Visible Ring & Nav Links */}
-          <div className="max-w-md w-full mx-auto flex flex-col items-center">
-            {/* Logo */}
-            <div className="mb-8">
-              <BrandLogo variant="light" size="lg" showTagline={true} />
-            </div>
+          {/* Centered Navigation Menu */}
+          <div className="max-w-md w-full mx-auto flex flex-col py-8 space-y-4">
+            {navItems.map((item) => {
+              const isActive =
+                activePage === item.page ||
+                (item.page === 'about' && activePage === 'maker');
 
-            {/* Menu List: HOME, SHOP, THE MAKER, ABOUT US, CONTACT US */}
-            <div className="w-full space-y-2.5">
-              <button
-                type="button"
-                onClick={() => handleNavClick('home')}
-                className={`w-full flex items-center justify-between py-3 border-b border-[#1E293B] text-sm font-sans tracking-widest uppercase transition-colors text-left cursor-pointer ${
-                  activePage === 'home' ? 'text-[#C5A880] font-semibold' : 'text-[#FAF8F5]'
-                }`}
-              >
-                <span>Home</span>
-                <ChevronRight className="w-4 h-4 text-[#8E98A8]" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleNavClick('shop')}
-                className={`w-full flex items-center justify-between py-3 border-b border-[#1E293B] text-sm font-sans tracking-widest uppercase transition-colors text-left cursor-pointer ${
-                  activePage === 'shop' ? 'text-[#C5A880] font-semibold' : 'text-[#FAF8F5]'
-                }`}
-              >
-                <span>Shop</span>
-                <ChevronRight className="w-4 h-4 text-[#8E98A8]" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleNavClick('custom')}
-                className={`w-full flex items-center justify-between py-3 border-b border-[#1E293B] text-sm font-sans tracking-widest uppercase transition-colors text-left cursor-pointer ${
-                  activePage === 'custom' ? 'text-[#C5A880] font-semibold' : 'text-[#FAF8F5]'
-                }`}
-              >
-                <span>Bespoke</span>
-                <ChevronRight className="w-4 h-4 text-[#8E98A8]" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleNavClick('about')}
-                className={`w-full flex items-center justify-between py-3 border-b border-[#1E293B] text-sm font-sans tracking-widest uppercase transition-colors text-left cursor-pointer ${
-                  activePage === 'about' || activePage === 'maker' ? 'text-[#C5A880] font-semibold' : 'text-[#FAF8F5]'
-                }`}
-              >
-                <span>About Us</span>
-                <ChevronRight className="w-4 h-4 text-[#8E98A8]" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleNavClick('contact')}
-                className={`w-full flex items-center justify-between py-3 border-b border-[#1E293B] text-sm font-sans tracking-widest uppercase transition-colors text-left cursor-pointer ${
-                  activePage === 'contact' ? 'text-[#C5A880] font-semibold' : 'text-[#FAF8F5]'
-                }`}
-              >
-                <span>Contact Us</span>
-                <ChevronRight className="w-4 h-4 text-[#8E98A8]" />
-              </button>
-            </div>
+              return (
+                <button
+                  key={item.page}
+                  type="button"
+                  onClick={() => handleNavClick(item.page)}
+                  className={`w-full flex items-center justify-between py-3.5 border-b border-[#1A253A] text-sm font-sans tracking-[0.14em] uppercase transition-colors text-left cursor-pointer ${
+                    isActive ? 'text-[#D6B878] font-medium' : 'text-[#F5F0E6]/85 hover:text-[#D6B878]'
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  <ChevronRight className="w-4 h-4 text-[#D6B878]" />
+                </button>
+              );
+            })}
           </div>
 
-          {/* Bottom Bar: Gold Swallows Corner Ornament */}
-          <div className="flex items-end justify-between pt-4 relative">
-            <span className="text-[10px] text-[#8E98A8] font-sans uppercase tracking-widest">
+          {/* Bottom Bar: Gold Swallow Accent */}
+          <div className="flex items-center justify-between pt-6 border-t border-[#1A253A]">
+            <span className="text-[11px] text-[#A0AAB8] font-sans tracking-[0.15em] uppercase">
               Biruh Adorn · Addis Ababa
             </span>
-
-            {/* Bottom Right Gold Corner Swallows Ornament */}
-            <div className="w-12 h-12 opacity-60">
+            <div className="w-10 h-10 opacity-60">
               <GoldSwallowDecor className="w-full h-full" />
             </div>
           </div>
