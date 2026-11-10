@@ -38,7 +38,7 @@ const LuxuryCartIcon: React.FC<{ className?: string }> = ({
         strokeWidth="1.5"
         strokeLinecap="round"
       />
-      <circle cx="12" cy="14" r="0.9" fill="#D6B878" />
+      <circle cx="12" cy="14" r="0.9" fill="#D4AF69" />
     </svg>
   );
 };
@@ -47,7 +47,6 @@ export const Header: React.FC<HeaderProps> = ({
   activePage,
   setActivePage,
   onOpenSearch,
-  theme,
 }) => {
   const { totalItems, toggleCart } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -75,32 +74,31 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Contact', page: 'contact' },
   ];
 
-  const showSolidNav = isScrolled || activePage !== 'home' || theme === 'dark';
+  const showSolidNav = isScrolled || activePage !== 'home';
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 w-full z-40 transition-all duration-500 ${
-          showSolidNav
-            ? 'bg-[#07111F]/95 backdrop-blur-md border-b border-[#1A253A] py-3.5 shadow-lg shadow-black/30'
-            : 'bg-transparent py-5 sm:py-6 border-b border-white/5'
-        }`}
+        className={`fixed top-0 left-0 right-0 w-full z-40 transition-all duration-500 ${showSolidNav
+            ? 'bg-[#020B12]/95 backdrop-blur-md border-b border-[#D4AF69]/20 py-3.5 shadow-lg shadow-black/45'
+            : 'bg-[#020B12]/65 backdrop-blur-[3px] border-b border-[#D4AF69]/18 py-4 sm:py-5'
+          }`}
       >
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-14 xl:px-16">
           <div className="flex items-center justify-between">
             {/* Mobile: Hamburger Button */}
             <div className="flex items-center lg:hidden">
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="p-1.5 text-[#F5F0E6] hover:text-[#D6B878] transition-colors focus:outline-hidden cursor-pointer"
+                className="p-1.5 text-[#F5F0E6] hover:text-[#D4AF69] transition-colors focus:outline-hidden cursor-pointer"
                 aria-label="Open menu"
               >
                 <Menu className="w-5 h-5" strokeWidth={1.4} />
               </button>
             </div>
 
-            {/* Left: Brand Logo & Name */}
+            {/* Left: Brand Logo & Name (Clean Slightly Larger Editorial Styling) */}
             <div className="flex items-center">
               <button
                 type="button"
@@ -109,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <BrandLogo
                   variant="light"
-                  size="sm"
+                  size="md"
                   showTagline={false}
                   layout="horizontal"
                 />
@@ -117,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
 
             {/* Center: Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center space-x-8 xl:space-x-10">
+            <nav className="hidden lg:flex items-center space-x-9 xl:space-x-12">
               {navItems.map((item) => {
                 const isActive =
                   activePage === item.page ||
@@ -128,20 +126,18 @@ export const Header: React.FC<HeaderProps> = ({
                     key={item.page}
                     type="button"
                     onClick={() => handleNavClick(item.page)}
-                    className={`group relative py-1 text-[13px] font-sans tracking-[0.08em] transition-colors cursor-pointer ${
-                      isActive
+                    className={`group relative py-1 text-[14px] font-sans tracking-[0.06em] transition-colors cursor-pointer ${isActive
                         ? 'text-[#F5F0E6] font-medium'
-                        : 'text-[#F5F0E6]/75 hover:text-[#F5F0E6]'
-                    }`}
+                        : 'text-[#F5F0E6]/80 hover:text-[#F5F0E6]'
+                      }`}
                   >
                     <span>{item.label}</span>
-                    {/* Animated Gold Underline with Shimmer */}
+                    {/* Animated Champagne Gold Underline */}
                     <span
-                      className={`absolute -bottom-1 left-0 h-[1.5px] bg-linear-to-r from-[#D6B878] via-[#FFF5DB] to-[#D6B878] transition-all duration-300 ${
-                        isActive
-                          ? 'w-full opacity-100 shadow-[0_0_8px_rgba(214,184,120,0.5)]'
+                      className={`absolute -bottom-1.5 left-0 h-[1.5px] bg-linear-to-r from-[#D4AF69] via-[#F2DCA6] to-[#D4AF69] transition-all duration-300 ${isActive
+                          ? 'w-full opacity-100 shadow-[0_0_8px_rgba(212,175,105,0.65)]'
                           : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'
-                      }`}
+                        }`}
                     />
                   </button>
                 );
@@ -160,24 +156,24 @@ export const Header: React.FC<HeaderProps> = ({
                     handleNavClick('shop');
                   }
                 }}
-                className="p-1.5 text-[#F5F0E6]/85 hover:text-[#D6B878] transition-colors focus:outline-hidden cursor-pointer"
+                className="p-1.5 text-[#F5F0E6]/90 hover:text-[#D4AF69] transition-colors focus:outline-hidden cursor-pointer"
                 aria-label="Search collection"
                 title="Search collection"
               >
-                <Search className="w-4 h-4 sm:w-[18px] sm:h-[18px]" strokeWidth={1.5} />
+                <Search className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]" strokeWidth={1.5} />
               </button>
 
               {/* Shopping Bag Icon with Champagne Counter */}
               <button
                 type="button"
                 onClick={toggleCart}
-                className="relative p-1.5 text-[#F5F0E6] hover:text-[#D6B878] transition-colors focus:outline-hidden cursor-pointer flex items-center justify-center"
+                className="relative p-1.5 text-[#F5F0E6] hover:text-[#D4AF69] transition-colors focus:outline-hidden cursor-pointer flex items-center justify-center"
                 aria-label={`Shopping Bag (${totalItems} items)`}
                 title="View Bag"
               >
                 <LuxuryCartIcon className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
                 {totalItems > 0 && (
-                  <span className="absolute -top-0.5 -right-1 flex items-center justify-center min-w-4 h-4 px-1 text-[9px] font-bold font-sans bg-gold-shine text-[#07111F] rounded-full shadow-[0_0_8px_rgba(214,184,120,0.5)]">
+                  <span className="absolute -top-0.5 -right-1 flex items-center justify-center min-w-4 h-4 px-1 text-[9px] font-bold font-sans bg-[#D4AF69] text-[#020B12] rounded-full shadow-[0_0_8px_rgba(212,175,105,0.5)]">
                     {totalItems}
                   </span>
                 )}
@@ -189,14 +185,14 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Full-Screen Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#07111F] text-[#F5F0E6] flex flex-col justify-between p-6 sm:p-10 animate-fadeIn overflow-hidden">
+        <div className="fixed inset-0 z-50 bg-[#020B12] text-[#F5F0E6] flex flex-col justify-between p-6 sm:p-10 animate-fadeIn overflow-hidden">
           {/* Top Bar: Close Button */}
-          <div className="flex items-center justify-between border-b border-[#1A253A] pb-4">
+          <div className="flex items-center justify-between border-b border-[#D4AF69]/20 pb-4">
             <BrandLogo variant="light" size="sm" showTagline={false} />
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="p-2 text-[#F5F0E6] hover:text-[#D6B878] transition-colors focus:outline-hidden cursor-pointer"
+              className="p-2 text-[#F5F0E6] hover:text-[#D4AF69] transition-colors focus:outline-hidden cursor-pointer"
               aria-label="Close navigation menu"
             >
               <X className="w-6 h-6" strokeWidth={1.4} />
@@ -215,19 +211,18 @@ export const Header: React.FC<HeaderProps> = ({
                   key={item.page}
                   type="button"
                   onClick={() => handleNavClick(item.page)}
-                  className={`w-full flex items-center justify-between py-3.5 border-b border-[#1A253A] text-sm font-sans tracking-[0.14em] uppercase transition-colors text-left cursor-pointer ${
-                    isActive ? 'text-[#D6B878] font-medium' : 'text-[#F5F0E6]/85 hover:text-[#D6B878]'
-                  }`}
+                  className={`w-full flex items-center justify-between py-3.5 border-b border-white/10 text-sm font-sans tracking-[0.14em] uppercase transition-colors text-left cursor-pointer ${isActive ? 'text-[#D4AF69] font-medium' : 'text-[#F5F0E6]/85 hover:text-[#D4AF69]'
+                    }`}
                 >
                   <span>{item.label}</span>
-                  <ChevronRight className="w-4 h-4 text-[#D6B878]" />
+                  <ChevronRight className="w-4 h-4 text-[#D4AF69]" />
                 </button>
               );
             })}
           </div>
 
           {/* Bottom Bar: Gold Swallow Accent */}
-          <div className="flex items-center justify-between pt-6 border-t border-[#1A253A]">
+          <div className="flex items-center justify-between pt-6 border-t border-[#D4AF69]/20">
             <span className="text-[11px] text-[#A0AAB8] font-sans tracking-[0.15em] uppercase">
               Biruh Adorn · Addis Ababa
             </span>

@@ -314,6 +314,91 @@ html {
   box-shadow: 0 16px 36px -10px rgba(214, 184, 120, 0.3), 0 0 24px rgba(214, 184, 120, 0.2) !important;
 }
 
+/* 6. Hero Specific Champagne Pill CTA & Editorial Gold Gradient Text */
+.hero-headline-gradient {
+  background: linear-gradient(90deg, #F7F3EA 0%, #F7F3EA 36%, #F2E2BA 56%, #D4AF69 78%, #C3984B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-gold-text {
+  background: linear-gradient(135deg, #F6E5BD 0%, #DFBD77 45%, #D4AF69 78%, #B58A42 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-cta-pill {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #C7A056 0%, #B08940 54%, #936E2E 100%);
+  box-shadow: 0 6px 20px -6px rgba(176, 137, 64, 0.26), 0 0 10px rgba(212, 175, 105, 0.08);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-cta-pill::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 220%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 32%,
+    rgba(255, 249, 232, 0.38) 50%,
+    rgba(255, 255, 255, 0) 68%,
+    transparent 100%
+  );
+  transform: translateX(-160%) skewX(-22deg);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.hero-cta-pill:hover {
+  background: linear-gradient(135deg, #D6B168 0%, #C0994F 52%, #A37D3A 100%);
+  box-shadow: 0 8px 26px -4px rgba(212, 175, 105, 0.34), 0 0 16px rgba(212, 175, 105, 0.14);
+  transform: translateY(-1px);
+}
+
+.hero-cta-pill:hover::after {
+  transform: translateX(160%) skewX(-22deg);
+}
+
+@keyframes heroStarSlowTwinkle {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.82) rotate(0deg);
+    filter: drop-shadow(0 0 5px rgba(212, 175, 105, 0.45));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.18) rotate(12deg);
+    filter: drop-shadow(0 0 11px rgba(212, 175, 105, 0.95)) drop-shadow(0 0 20px rgba(244, 219, 158, 0.55));
+  }
+}
+
+@keyframes heroStarHaloSlow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.25);
+  }
+}
+
+.animate-hero-star-twinkle {
+  animation: heroStarSlowTwinkle 5.5s ease-in-out infinite;
+}
+
+.animate-hero-star-halo {
+  animation: heroStarHaloSlow 5.5s ease-in-out infinite;
+}
+
 /* Respect user accessibility settings */
 @media (prefers-reduced-motion: reduce) {
   .gold-btn-shine::after,
@@ -322,7 +407,9 @@ html {
   .animate-gold-glint,
   .animate-gold-glint-delayed,
   .animate-sparkle-turn-a,
-  .animate-sparkle-turn-b {
+  .animate-sparkle-turn-b,
+  .animate-hero-star-twinkle,
+  .animate-hero-star-halo {
     animation: none !important;
   }
 }

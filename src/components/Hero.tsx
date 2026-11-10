@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight, ArrowDown } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 
 interface HeroProps {
@@ -8,245 +8,334 @@ interface HeroProps {
 
 interface HeroSlide {
   label: string;
-  titleWords: string[];
+  titleLight: string;
+  titleGold: string;
   subtitle: string;
-  cta: string;
 }
 
 const HERO_SLIDES: HeroSlide[] = [
   {
     label: 'LUXURY JEWELRY',
-    titleWords: ['Shine', 'Differently'],
+    titleLight: 'Shine',
+    titleGold: 'Differently',
     subtitle: 'Minimal. Elegant. Timeless.',
-    cta: 'Explore Collection',
   },
   {
     label: 'ETHIOPIAN ARTISAN CRAFT',
-    titleWords: ['Sculpted', 'by Hand'],
+    titleLight: 'Sculpted',
+    titleGold: 'by Hand',
     subtitle: 'Contemporary form with ancient soul.',
-    cta: 'Discover Selected Pieces',
   },
   {
     label: 'BESPOKE COMMISSIONS',
-    titleWords: ['Your Form,', 'Your Soul'],
+    titleLight: 'Your Form,',
+    titleGold: 'Your Soul',
     subtitle: 'One-of-a-kind heirlooms crafted for you.',
-    cta: 'Start Consultation',
   },
-];
-
-// 20 Alternating Gold Sparkles: Group A (10) and Group B (10) taking turns across the left side
-interface SparklePoint {
-  id: number;
-  top: string;
-  left: string;
-  size: string;
-}
-
-const SPARKLES_GROUP_A: SparklePoint[] = [
-  { id: 1, top: '16%', left: '12%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Upper left ambient
-  { id: 2, top: '24%', left: '28%', size: 'w-5 h-5 sm:w-6 sm:h-6' }, // Above label
-  { id: 3, top: '34%', left: '44%', size: 'w-5 h-5 sm:w-6 sm:h-6' }, // Top-right of heading
-  { id: 4, top: '40%', left: '7%', size: 'w-3.5 h-3.5 sm:w-4.5 sm:h-4.5' }, // Far left of heading
-  { id: 5, top: '48%', left: '33%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Under heading
-  { id: 6, top: '58%', left: '15%', size: 'w-4.5 h-4.5 sm:w-5.5 sm:h-5.5' }, // Left of CTA button
-  { id: 7, top: '65%', left: '38%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Right of CTA button
-  { id: 8, top: '75%', left: '10%', size: 'w-5 h-5 sm:w-6 sm:h-6' }, // Lower left
-  { id: 9, top: '82%', left: '26%', size: 'w-3.5 h-3.5 sm:w-4.5 sm:h-4.5' }, // Near scroll down
-  { id: 10, top: '30%', left: '55%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Center-left transition
-];
-
-const SPARKLES_GROUP_B: SparklePoint[] = [
-  { id: 11, top: '19%', left: '36%', size: 'w-4.5 h-4.5 sm:w-5.5 sm:h-5.5' }, // Upper mid-left
-  { id: 12, top: '28%', left: '14%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Above "Shine"
-  { id: 13, top: '36%', left: '22%', size: 'w-5 h-5 sm:w-6 sm:h-6' }, // Center of heading
-  { id: 14, top: '44%', left: '50%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Right of heading
-  { id: 15, top: '52%', left: '9%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Left of subtitle
-  { id: 16, top: '62%', left: '26%', size: 'w-4.5 h-4.5 sm:w-5.5 sm:h-5.5' }, // Below CTA button
-  { id: 17, top: '70%', left: '46%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Lower mid transition
-  { id: 18, top: '74%', left: '19%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Lower left ambient
-  { id: 19, top: '84%', left: '40%', size: 'w-3.5 h-3.5 sm:w-4.5 sm:h-4.5' }, // Bottom area
-  { id: 20, top: '22%', left: '50%', size: 'w-4 h-4 sm:w-5 sm:h-5' }, // Upper transition
 ];
 
 export const Hero: React.FC<HeroProps> = ({ onExploreCollection }) => {
   const shouldReduceMotion = useReducedMotion();
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Automatically advance through hero messaging with slow luxury pacing
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 5200);
+    return () => clearInterval(timer);
+  }, [shouldReduceMotion]);
+
   const slide = HERO_SLIDES[currentSlide];
 
-  const handleNextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-  };
-
-  const handleScrollDown = () => {
-    const nextSection = document.getElementById('collection-section');
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' });
-    }
-  };
-
   return (
-    <section className="relative w-full h-screen min-h-[640px] max-h-[1100px] bg-[#07111F] text-[#F5F0E6] overflow-hidden flex flex-col justify-between select-none">
-      {/* Background Image Container with Cinematic Slow Zoom */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <motion.img
-          src="/images/hero-velvet.jpg"
-          alt="Biruh Adorn Luxury Gold Jewelry on Velvet"
-          initial={shouldReduceMotion ? false : { scale: 1 }}
-          animate={shouldReduceMotion ? undefined : { scale: [1, 1.05, 1] }}
-          transition={{
-            duration: 26,
-            ease: 'easeInOut',
-            repeat: Infinity,
+    <section className="relative w-full h-svh min-h-[600px] lg:h-screen lg:min-h-[640px] bg-[#020B12] text-[#F5F0E6] overflow-hidden flex flex-col justify-between select-none">
+      {/* Studio Macro Backdrop & Atmospheric Lighting Layer */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#020B12]">
+        {/* High-Resolution Gold Clover Necklace on Dark Navy & Teal-Lit Velvet */}
+        <div className="absolute top-0 inset-x-0 h-[48%] md:inset-0 md:h-full overflow-hidden">
+          <motion.img
+            src="/images/hero-luxury-clover.jpg"
+            alt="Biruh Adorn Champagne Gold Four-Leaf Clover Necklace on Dark Velvet"
+            initial={shouldReduceMotion ? false : { scale: 1 }}
+            animate={shouldReduceMotion ? undefined : { scale: [1, 1.025, 1] }}
+            transition={{
+              duration: 28,
+              ease: 'easeInOut',
+              repeat: Infinity,
+            }}
+            className="w-full h-full object-cover object-[76%_48%] md:object-[40%_center] brightness-[1.06] contrast-[1.03]"
+          />
+
+          {/* Mobile Bottom-Up Feather Fade into Almost-Black Midnight Navy (#020B12) */}
+          <div
+            className="md:hidden absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'linear-gradient(180deg, rgba(2, 11, 18, 0.35) 0%, rgba(2, 11, 18, 0.05) 26%, rgba(2, 11, 18, 0.22) 60%, rgba(2, 11, 18, 0.94) 90%, #020B12 100%)',
+            }}
+          />
+        </div>
+
+        {/* Desktop Left-to-Right Seamless #020B12 Gradient Behind Content */}
+        <div
+          className="hidden md:block absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(90deg, #020B12 0%, rgba(2, 11, 18, 0.96) 28%, rgba(2, 11, 18, 0.65) 45%, rgba(2, 11, 18, 0.14) 62%, transparent 78%)',
           }}
-          className="w-full h-full object-cover object-[75%_center] sm:object-[center_center]"
         />
 
-        {/* Seamless Solid Midnight Navy Gradient Overlay on Left Side */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07111F] via-[#07111F]/90 via-45% to-transparent sm:via-50%" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#07111F] via-transparent to-[#07111F]/50" />
+        {/* Subtle Top/Bottom Vignette Framing */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(2, 11, 18, 0.55) 0%, transparent 18%, transparent 78%, rgba(2, 11, 18, 0.88) 100%)',
+          }}
+        />
 
-        {/* 20 Alternating Luxury Gold Sparkles: 10 shine long, dim a little, then 10 shine, taking turns */}
-        {!shouldReduceMotion && (
-          <div className="absolute inset-0 pointer-events-none z-1">
-            {/* Group A (10 Sparkles): Flares up and shines first */}
-            {SPARKLES_GROUP_A.map((sparkle) => (
-              <div
-                key={`sparkle-a-${sparkle.id}`}
-                className={`absolute ${sparkle.size} flex items-center justify-center`}
-                style={{ top: sparkle.top, left: sparkle.left }}
-              >
-                <div className="w-full h-full animate-sparkle-turn-a">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="w-full h-full text-[#FFF8E7]"
-                    fill="currentColor"
-                  >
-                    <path d="M12 0L13.8 9.2L24 12L13.8 14.8L12 24L10.2 14.8L0 12L10.2 9.2L12 0Z" />
-                  </svg>
-                </div>
-              </div>
-            ))}
+        {/* Deep Electric Teal (#087E83) Atmospheric Ambient Glows Behind Jewelry & Middle */}
+        <div
+          className="hidden md:block absolute right-[20%] top-[22%] w-[460px] h-[460px] rounded-full blur-[115px] pointer-events-none opacity-40"
+          style={{ background: 'radial-gradient(circle, #087E83 0%, transparent 70%)' }}
+        />
+        <div
+          className="hidden md:block absolute left-[44%] top-[12%] w-[360px] h-[360px] rounded-full blur-[100px] pointer-events-none opacity-32"
+          style={{ background: 'radial-gradient(circle, #087E83 0%, transparent 68%)' }}
+        />
 
-            {/* Group B (10 Sparkles): Dims first, then shines taking turns */}
-            {SPARKLES_GROUP_B.map((sparkle) => (
-              <div
-                key={`sparkle-b-${sparkle.id}`}
-                className={`absolute ${sparkle.size} flex items-center justify-center`}
-                style={{ top: sparkle.top, left: sparkle.left }}
-              >
-                <div className="w-full h-full animate-sparkle-turn-b">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="w-full h-full text-[#FFF8E7]"
-                    fill="currentColor"
-                  >
-                    <path d="M12 0L13.8 9.2L24 12L13.8 14.8L12 24L10.2 14.8L0 12L10.2 9.2L12 0Z" />
-                  </svg>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+        {/* Subtle Dimmed Champagne Gold (#D4AF69) Warm Ambient Glow Under CTA Zone */}
+        <div
+          className="hidden md:block absolute left-[7%] bottom-[21%] w-[320px] h-[170px] rounded-full blur-[85px] pointer-events-none opacity-12"
+          style={{ background: 'radial-gradient(circle, #D4AF69 0%, transparent 70%)' }}
+        />
 
-      {/* Top Spacer so content centers comfortably below the sticky header */}
-      <div className="h-20 sm:h-24 relative z-10" />
-
-      {/* Main Hero Content Box (Left-Aligned with Generous Negative Space) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full py-8 sm:py-12">
-        <div className="max-w-xl lg:max-w-2xl min-h-[280px] sm:min-h-[320px] flex flex-col justify-center">
-          {/* AnimatePresence mode="wait" ensures inactive slides unmount completely before new slide renders */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
-              exit={shouldReduceMotion ? undefined : { opacity: 0, y: -16 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Upper Label with Hairline Separator */}
-              <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                <span className="text-[11px] sm:text-xs font-sans font-medium uppercase tracking-[0.28em] text-gold-shine">
-                  {slide.label}
-                </span>
-                <span className="w-10 sm:w-16 h-[1.5px] bg-linear-to-r from-[#D6B878] via-[#FFF3DB] to-transparent inline-block" />
-              </div>
-
-              {/* Single Main Heading */}
-              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-normal leading-[1.05] tracking-tight text-[#F5F0E6] mb-4 sm:mb-6">
-                {slide.titleWords.map((word, idx) => (
-                  <span key={idx} className="inline-block mr-3 sm:mr-4">
-                    {word}
-                  </span>
-                ))}
-              </h1>
-
-              {/* Single Subtitle */}
-              <p className="font-sans text-sm sm:text-base md:text-lg text-[#D4D0C6] font-light tracking-wide mb-8 sm:mb-10">
-                {slide.subtitle}
-              </p>
-
-              {/* Single Primary CTA Button with Gold Shine */}
-              <div>
-                <button
-                  type="button"
-                  onClick={onExploreCollection}
-                  className="group relative inline-flex items-center gap-3 px-8 sm:px-9 py-3.5 sm:py-4 rounded-full gold-btn-shine text-[#07111F] font-sans text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase cursor-pointer"
-                >
-                  <span className="relative z-10">{slide.cta}</span>
-                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#07111F] relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-
-      {/* Bottom Controls Bar: Scroll Down Indicator & Interactive Carousel Controls */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full pb-6 sm:pb-8 flex items-center justify-between">
-        {/* Bottom Left: Scroll Down Indicator with Gentle Movement */}
-        <button
-          type="button"
-          onClick={handleScrollDown}
-          className="group inline-flex items-center gap-2 text-[11px] sm:text-xs font-sans tracking-[0.18em] uppercase text-[#B8B3A8] hover:text-[#D6B878] transition-colors cursor-pointer"
+        {/* Flowing Velvet-Like Curved Shapes, Electric Teal Light Streaks & Sweeping Gold Hairline */}
+        <svg
+          className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-1"
+          viewBox="0 0 1440 820"
+          fill="none"
+          preserveAspectRatio="none"
+          aria-hidden="true"
         >
-          <span>Scroll Down</span>
-          <ArrowDown className="w-3.5 h-3.5 text-[#D6B878] transition-transform duration-300 group-hover:translate-y-1 animate-gentle-bounce" />
-        </button>
+          <defs>
+            {/* Electric Teal Glowing Rim Curve */}
+            <linearGradient id="tealCurveGrad" x1="25%" y1="65%" x2="64%" y2="0%">
+              <stop offset="0%" stopColor="#087E83" stopOpacity="0" />
+              <stop offset="32%" stopColor="#087E83" stopOpacity="0.45" />
+              <stop offset="66%" stopColor="#19ACB2" stopOpacity="0.8" />
+              <stop offset="92%" stopColor="#087E83" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#087E83" stopOpacity="0" />
+            </linearGradient>
 
-        {/* Bottom Right: Interactive Carousel Indicators */}
-        <div className="flex items-center gap-2.5">
-          {HERO_SLIDES.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setCurrentSlide(idx)}
-              className="py-2 cursor-pointer transition-all duration-300"
-              aria-label={`Go to slide ${idx + 1}`}
-            >
-              <span
-                className={`block transition-all duration-300 ${
-                  currentSlide === idx
-                    ? 'w-8 sm:w-10 h-[2px] bg-[#D6B878]'
-                    : 'w-4 sm:w-5 h-[1.5px] bg-[#B8B3A8]/40 hover:bg-[#B8B3A8]'
-                }`}
-              />
-            </button>
-          ))}
-          <button
-            type="button"
-            onClick={handleNextSlide}
-            className="p-1 text-[#D6B878] hover:text-[#F5F0E6] text-xs font-serif pl-1 cursor-pointer transition-colors"
-            aria-label="Next slide"
-            title="Next slide"
+            {/* Illuminated Velvet Fold Soft Wash */}
+            <radialGradient id="tealVelvetPool" cx="55%" cy="38%" r="42%">
+              <stop offset="0%" stopColor="#087E83" stopOpacity="0.18" />
+              <stop offset="55%" stopColor="#087E83" stopOpacity="0.06" />
+              <stop offset="100%" stopColor="#020B12" stopOpacity="0" />
+            </radialGradient>
+
+            {/* Champagne Gold Sweeping Curve from Left Edge Toward Lower Center */}
+            <linearGradient id="goldSweepGrad" x1="0%" y1="45%" x2="58%" y2="96%">
+              <stop offset="0%" stopColor="#D4AF69" stopOpacity="0.32" />
+              <stop offset="28%" stopColor="#F9E9C2" stopOpacity="0.95" />
+              <stop offset="54%" stopColor="#D4AF69" stopOpacity="0.72" />
+              <stop offset="84%" stopColor="#D4AF69" stopOpacity="0.16" />
+              <stop offset="100%" stopColor="#087E83" stopOpacity="0" />
+            </linearGradient>
+
+            <filter id="tealBlur" x="-15%" y="-15%" width="130%" height="130%">
+              <feGaussianBlur stdDeviation="5" />
+            </filter>
+            <filter id="tealSoftFill" x="-25%" y="-25%" width="150%" height="150%">
+              <feGaussianBlur stdDeviation="24" />
+            </filter>
+            <filter id="goldGlowFilter" x="-10%" y="-10%" width="120%" height="120%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {/* Large Curved Dark-Teal Velvet Wash in Mid-Right */}
+          <ellipse cx="780" cy="310" rx="420" ry="260" fill="url(#tealVelvetPool)" />
+
+          {/* Seamless Electric Teal Atmospheric Velvet Edge Arch Behind "Differently" */}
+          <path
+            d="M350 515 C 545 465, 725 265, 895 -10"
+            stroke="rgba(8, 126, 131, 0.28)"
+            strokeWidth="38"
+            strokeLinecap="round"
+            filter="url(#tealSoftFill)"
+          />
+          <path
+            d="M350 515 C 545 465, 725 265, 895 -10"
+            stroke="url(#tealCurveGrad)"
+            strokeWidth="3"
+            filter="url(#tealBlur)"
+          />
+          <path
+            d="M350 515 C 545 465, 725 265, 895 -10"
+            stroke="url(#tealCurveGrad)"
+            strokeWidth="1.15"
+          />
+
+          {/* Faint Lower Curved Velvet-Fold Teal Contour */}
+          <path
+            d="M-10 448 C 115 628, 315 688, 595 724 C 710 738, 785 776, 845 830"
+            stroke="rgba(8, 126, 131, 0.28)"
+            strokeWidth="1.25"
+          />
+
+          {/* Thin Curved Champagne-Gold Line Sweeping From Left Edge Toward Lower Middle */}
+          <path
+            d="M-10 390 C 82 586, 222 648, 480 676 C 635 693, 725 735, 810 830"
+            stroke="url(#goldSweepGrad)"
+            strokeWidth="1.45"
+            strokeLinecap="round"
+            filter="url(#goldGlowFilter)"
+          />
+        </svg>
+
+        {/* Mobile Subtle Atmospheric Curved Teal Glow & Sweeping Gold Line */}
+        <svg
+          className="md:hidden absolute inset-0 w-full h-full pointer-events-none z-1"
+          viewBox="0 0 390 844"
+          fill="none"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="mobTealGrad" x1="0%" y1="45%" x2="95%" y2="22%">
+              <stop offset="0%" stopColor="#087E83" stopOpacity="0" />
+              <stop offset="48%" stopColor="#149EA4" stopOpacity="0.48" />
+              <stop offset="100%" stopColor="#087E83" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="mobGoldGrad" x1="0%" y1="70%" x2="88%" y2="95%">
+              <stop offset="0%" stopColor="#D4AF69" stopOpacity="0.35" />
+              <stop offset="35%" stopColor="#F5E1B0" stopOpacity="0.9" />
+              <stop offset="85%" stopColor="#D4AF69" stopOpacity="0.16" />
+              <stop offset="100%" stopColor="#087E83" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M-10 385 C 115 370, 235 340, 395 305"
+            stroke="url(#mobTealGrad)"
+            strokeWidth="1.2"
+          />
+          <path
+            d="M-10 555 C 22 678, 135 712, 355 772"
+            stroke="url(#mobGoldGrad)"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+          />
+        </svg>
+
+        {/* Only ONE Subtle Gold Sparkle Near Left Edge — Visible on All Screens & Slowly Twinkling */}
+        <div
+          className="flex absolute left-4 top-[35.5%] sm:left-[2.8%] lg:left-[3.4%] sm:top-[37%] z-2 w-6 h-6 sm:w-7 sm:h-7 items-center justify-center pointer-events-none"
+          aria-hidden="true"
+        >
+          <div
+            className={`absolute inset-0 rounded-full blur-md ${
+              shouldReduceMotion ? 'opacity-45' : 'animate-hero-star-halo'
+            }`}
+            style={{ background: 'radial-gradient(circle, #D4AF69 0%, transparent 70%)' }}
+          />
+          <svg
+            viewBox="0 0 24 24"
+            className={`relative w-5 h-5 text-[#EAD095] ${
+              shouldReduceMotion
+                ? 'drop-shadow-[0_0_8px_rgba(212,175,105,0.85)]'
+                : 'animate-hero-star-twinkle'
+            }`}
+            fill="currentColor"
           >
-            →
-          </button>
+            <path d="M12 1L13.6 10.4L23 12L13.6 13.6L12 23L10.4 13.6L1 12L10.4 10.4L12 1Z" />
+          </svg>
         </div>
       </div>
+
+      {/* Top Spacer Below Fixed Navbar (+ Balanced Mobile Necklace Showcase Window) */}
+      <div className="h-[27vh] min-h-[165px] max-h-[225px] md:h-24 md:min-h-0 md:max-h-none relative z-10 shrink-0" />
+
+      {/* Main Hero Content Box — Centered Naturally on All Screens */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 w-full my-auto py-4 md:py-8">
+        <div className="max-w-xl lg:max-w-2xl xl:max-w-3xl flex flex-col justify-center">
+          {/* Smooth concurrent vertical glide: exiting copy slowly rises upward while next rises cleanly */}
+          <div className="relative min-h-[175px] sm:min-h-[210px] md:min-h-[235px] mb-6 sm:mb-8">
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={currentSlide}
+                className="absolute inset-0 flex flex-col justify-center"
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 28 }}
+                animate={
+                  shouldReduceMotion
+                    ? undefined
+                    : {
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                          duration: 1.5,
+                          delay: 0.55,
+                          ease: [0.22, 1, 0.36, 1],
+                        },
+                      }
+                }
+                exit={
+                  shouldReduceMotion
+                    ? undefined
+                    : {
+                        opacity: 0,
+                        y: -34,
+                        transition: {
+                          duration: 1.1,
+                          ease: [0.22, 1, 0.36, 1],
+                        },
+                      }
+                }
+              >
+                {/* Small Eyebrow Text + Thin Champagne Gold Separator */}
+                <div className="flex items-center gap-3.5 sm:gap-4 mb-3.5 sm:mb-5">
+                  <span className="text-[11px] sm:text-xs font-sans font-medium uppercase tracking-[0.28em] text-[#D4AF69]/90">
+                    {slide.label}
+                  </span>
+                  <span className="w-12 sm:w-20 h-[1px] bg-linear-to-r from-[#D4AF69]/85 via-[#D4AF69]/40 to-transparent inline-block" />
+                </div>
+
+                {/* Large Prominent Serif Headline: Seamless Warm Ivory -> Champagne Gold Gradient */}
+                <h1 className="hero-headline-gradient font-serif text-[2.85rem] sm:text-6xl md:text-7xl lg:text-[5.25rem] xl:text-[6rem] font-normal leading-[1.03] tracking-tight mb-3.5 sm:mb-5 w-fit max-w-full">
+                  {slide.titleLight} {slide.titleGold}
+                </h1>
+
+                {/* Supporting Text */}
+                <p className="font-sans text-sm sm:text-base md:text-[17px] text-[#D4D0C6]/90 font-light tracking-wide">
+                  {slide.subtitle}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Persistent Dimmed Champagne-Gold Pill CTA Button */}
+          <div>
+            <button
+              type="button"
+              onClick={onExploreCollection}
+              className="group hero-cta-pill inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 rounded-full text-[#020B12] font-sans text-xs sm:text-[12.5px] font-semibold tracking-[0.15em] uppercase cursor-pointer"
+            >
+              <span className="relative z-10">Explore Collection</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#020B12] relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Breathing Spacer */}
+      <div className="h-8 sm:h-10 relative z-10 shrink-0" />
     </section>
   );
 };

@@ -9,15 +9,6 @@ interface ShopByFormProps {
   onViewAll: () => void;
 }
 
-const MARQUEE_ITEMS = [
-  'HANDCRAFTED IN ADDIS ABABA',
-  'ETHIOPIAN NATURAL STONES',
-  'RECYCLED SOLID BRASS',
-  'ARCHITECTURAL SILHOUETTES',
-  'COMPLIMENTARY LOCAL DELIVERY',
-  'BESPOKE ARTISAN COMMISSIONS',
-];
-
 const CATEGORY_SUBTITLES: Record<string, string> = {
   necklaces: 'Natural Highland Stones',
   bracelets: 'Stacked Gemstone Bangles',
@@ -30,24 +21,10 @@ export const ShopByForm: React.FC<ShopByFormProps> = ({
   onViewAll,
 }) => {
   return (
-    <section className="w-full bg-linear-to-b from-[#07111F]/3 via-[#FAF8F5] to-[#FAF8F5] border-b border-[#EBE7DF] overflow-hidden">
-      {/* Luxury Moving Marquee Banner */}
-      <div className="w-full bg-[#07111F] text-[#F5F0E6] py-3 overflow-hidden border-y border-[#12382C]">
-        <div className="flex whitespace-nowrap animate-marquee">
-          <div className="flex items-center gap-8 shrink-0 px-4">
-            {MARQUEE_ITEMS.concat(MARQUEE_ITEMS).map((item, idx) => (
-              <span
-                key={idx}
-                className="text-[10px] sm:text-[11px] font-sans tracking-[0.26em] uppercase font-light flex items-center gap-6"
-              >
-                <span>{item}</span>
-                <span className="text-[#D6B878] text-xs">✦</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
+    <section
+      id="collection-section"
+      className="w-full bg-linear-to-b from-[#07111F]/3 via-[#FAF8F5] to-[#FAF8F5] border-b border-[#EBE7DF] overflow-hidden"
+    >
       <div className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Section Header with Scroll Reveal */}
         <motion.div
